@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <center>
+        <h1>Login</h1>
+    </center>
+
+    <section class="container">
+        <form>
+            <label for="email">Email Address</label><br>
+            <input type="email" placeholder="Enter your email" id="email"> <br> <br>
+
+            <label for="password">Password</label> <br>
+            <input type="password" placeholder="Enter your password" id="password"> <br> <br>
+            <small>Don't have an account? <a href="./register.html">Create account</a></small><br>
+            <button type="button" onclick="loginHandler()" id="btn">Sign in</button>
+        </form>
+    </section>
+
+    <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBieLWRvpgHFtYDSC4JZAxGpX6TybvBY_I",
+            authDomain: "chat-application-5f972.firebaseapp.com",
+            projectId: "chat-application-5f972",
+            storageBucket: "chat-application-5f972.firebasestorage.app",
+            messagingSenderId: "733620020619",
+            appId: "1:733620020619:web:a77e30a657a5a9386bfb8e",
+            measurementId: "G-SBR0Q3159T"
+        };
+        const app = firebase.initializeApp(firebaseConfig);//we are intializing firebase confirgurations in app
+        const authenticationRoom = firebase.auth(); //importing authentication room from firebase to create users
+        // const databaseRoom = firebase.database(); //we are importing database room to store messages in database
+
+  
+        let email = document.getElementById('email');
+        let password = document.getElementById('password');
+        let button = document.getElementById('btn');
+
+       
+
+
+        async function loginHandler(){
+             btn.innerText = 'Please wait..'
+            console.log(email.value);
+            console.log(password.value);//printing taht input user entered values
+
+            try {
+                const userCredentials = await authenticationRoom.signInWithEmailAndPassword(email.value, password.value); //this method required 2 paramaters
+                console.log(userCredentials);
+                console.log(typeof(userCredentials));
+                console.log(userCredentials.email);
+                console.log(userCredentials.uid);
+
+                btn.innerText ='Sign in'
+                alert('login is success')
+                //to store data in local storage we need to send two parameters key name and value
+                localStorage.setItem('user', userCredentials.email);
+                window.location.href = './chat.html';
+            } catch (error) {
+                console.log(error);
+                btn.innerText ='Sign in'
+                alert('Invalid Login Credetials')
+                
+            }
+            
+        }
+
+    
+
+    </script>
+    
+</body>
+</html>

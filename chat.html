@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Chat</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+        <!-- <h1>Chat Screen</h1> -->
+       
+        <header>
+            <div>
+                <h4 id="email"></h4>
+                <p>Welcome to Group Chat</p>
+            </div>
+
+            <button class="logout" onclick="logoutHanlder()" title="click to logout">Logout</button>
+        </header>
+    
+    <hr>
+<div class="message">
+    
+    <input type="text" placeholder="type here.." id="message">
+    <button onclick="messageSendhanlder()">send</button>
+</div>
+    <ul id="chat"></ul>
+
+    <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBieLWRvpgHFtYDSC4JZAxGpX6TybvBY_I",
+            authDomain: "chat-application-5f972.firebaseapp.com",
+            projectId: "chat-application-5f972",
+            storageBucket: "chat-application-5f972.firebasestorage.app",
+            messagingSenderId: "733620020619",
+            appId: "1:733620020619:web:a77e30a657a5a9386bfb8e",
+            measurementId: "G-SBR0Q3159T"
+        };
+        const app = firebase.initializeApp(firebaseConfig);//we are intializing firebase confirgurations in app
+        // const authenticationRoom = firebase.auth(); //importing authentication room from firebase to create users
+        const databaseRoom = firebase.database(); //we are importing database room to store messages in database
+
+  
+        
+
+        //creating messages folder in database folder in firebase
+        const messageFolder = databaseRoom.ref('messages'); //messages is the database folder name
+
+
+
+
+        // localStorage.setItem('test', 'hello this is the text');
+        const h4TagEmail = document.getElementById('email')
+        var user = localStorage.getItem('user'); //we are getting thed data from local storage with key name is user and storing in user variable
+        console.log(user);
+
+        if(user==null){//if user is not present in local storage that will be null that time send that user to login page
+            //in html we can visit from page to onother one page using anchor tag inn javascript we can use window.location.href=destination link
+
+            window.location.href='./index.html'
+        }else{
+            h4TagEmail.innerText = 'Hello 👋 ' + user
+        }
+
+
+        function logoutHanlder(){
+          if(confirm('Do you want to logout?')){
+            //if user clicks ok button this will be execute
+            localStorage.removeItem('user');
+            window.location.reload(); //to refresh the page
+          }else{
+            //if user clicks cancel button this will be  execute
+
+          }
+
+        // window.location.reload()
+        }
+
+       
+
+  
+
+
+
+        //message send code
+     
+
+        function messageSendhanlder(){
+            let messageInput = document.getElementById('message');//getting message input
+            // console.log(messageInput.value);
+            if(messageInput.value ==''){
+                alert('please enter the message')
+            }else{
+                let newMessage = {
+                    message:messageInput.value,
+                    time:Date.now(),
+                    userEmail:localStorage.getItem('user')
+                }
+                console.log(newMessage);
+                messageFolder.push(newMessage);
+                messageInput.value = '';
+            }
+                
+                // messageFolder.push()
+        }
+
+
+
+        //to display the message
+
+        let chatScreen = document.getElementById('chat');
+     
+        chatScreen.innerHTML = '<li><h1>Loading...</h1></li>'
+        function MessageLoader(){
+            messageFolder.on('value', (data)=>{
+            //we are checking if value is there or not in messagesFOlder if it is tehre we are runnig one callbackfunction that bis arrow function
+            console.log(data);
+            chatScreen.innerHTML = '';
+            data.forEach((msg)=>{
+                console.log(msg.val());
+
+                const {message, userEmail, time} = msg.val();
+                console.log(message);
+                console.log(userEmail);
+                console.log(time);
+                chatScreen.innerHTML += `
+                <li class=${userEmail==localStorage.getItem('user')?('my_message'):('friend_message')}>${message} </li>`
+                
+                
+            })
+            
+
+        })
+        }
+        // <b>User:</b> ${userEmail}<br>
+        //             <b>date:</b> ${new Date(time).toLocaleDateString()} <br>
+        //             <b>Time:</b> ${new Date(time).toLocaleTimeString()}<br>
+
+        MessageLoader();
+
+    </script>
+    
+</body>
+</html>
