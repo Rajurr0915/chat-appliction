@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="pushData()">Insert</button>
+    
+    <div id="container"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase.js"></script>
+    <script>
+        const firebaseConfig = {
+        apiKey: "AIzaSyBieLWRvpgHFtYDSC4JZAxGpX6TybvBY_I",
+        authDomain: "chat-application-5f972.firebaseapp.com",
+        databaseURL: "https://chat-application-5f972-default-rtdb.firebaseio.com",
+        projectId: "chat-application-5f972",
+        storageBucket: "chat-application-5f972.firebasestorage.app",
+        messagingSenderId: "733620020619",
+        appId: "1:733620020619:web:a77e30a657a5a9386bfb8e",
+        measurementId: "G-SBR0Q3159T"
+        };
+
+        let app = firebase.initializeApp(firebaseConfig)
+        let databaseRoom = firebase.database();//importing database feature
+
+
+
+
+
+        
+        //to create in database to store data
+        let contactsFolder = databaseRoom.ref('contacts');//folder name
+
+        const newContact = {
+            username:'arun kumar',
+            number:'+917387879839',
+            status:'Offline',
+            geder : 'male , female'
+        }
+
+        //printing values from object with old method
+
+        // console.log(newContact.username);
+        // console.log(newContact.number);
+        // console.log(newContact.status);
+
+         //printing values from object with new method (destructuring)
+
+        //  const {username, number, status} = newContact;
+
+        //  console.log(username);
+        //  console.log(number);
+        //  console.log(status);
+         
+
+        
+        //to insert the data in database we can use push method
+       function pushData(){
+        contactsFolder.push(newContact)
+       }
+
+       const container = document.getElementById('container');
+
+
+
+       //getting data from contacts folder
+       contactsFolder.on('value', function(allContacts){
+        console.log(allContacts);
+        allContacts.forEach(function(item){
+            console.log(item.val()); //object
+
+
+
+
+            //to exctract all properties from object we can destructure
+            const {number, status, username, geder} = item.val();
+            console.log(username);
+            console.log(number);
+            console.log(geder);
+            console.log(status); 
+            container.innerHTML += `
+                <div class="card">
+                    <h3>${username}</h3>
+                    <p>${number}</p>
+                    <p>${geder}</p>
+                    <small style="color:green">${status}</small>
+                </div>
+            `      
+        })
+        
+       })
+    </script>
+</body>
+</html>

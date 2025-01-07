@@ -12,6 +12,10 @@
 
     <section class="container">
         <form>
+
+            <label for="email">Username</label><br>
+            <input type="text" placeholder="Enter your name" id="username"> <br> <br>
+
             <label for="email">Email Address</label><br>
             <input type="email" placeholder="Enter your email" id="email"> <br> <br>
 
@@ -23,52 +27,9 @@
     </section>
 
     <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
-    <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyBieLWRvpgHFtYDSC4JZAxGpX6TybvBY_I",
-            authDomain: "chat-application-5f972.firebaseapp.com",
-            projectId: "chat-application-5f972",
-            storageBucket: "chat-application-5f972.firebasestorage.app",
-            messagingSenderId: "733620020619",
-            appId: "1:733620020619:web:a77e30a657a5a9386bfb8e",
-            measurementId: "G-SBR0Q3159T"
-        };
-        const app = firebase.initializeApp(firebaseConfig);//we are intializing firebase confirgurations in app
-        const authenticationRoom = firebase.auth(); //importing authentication room from firebase to create users
-        // const databaseRoom = firebase.database(); //we are importing database room to store messages in database
-
-  
-        let email = document.getElementById('email');
-        let password = document.getElementById('password');
-        let button = document.getElementById('btn');
-
-       
-
-
-        async function registerHanlder(){
-             btn.innerText = 'Please wait..'
-            console.log(email.value);
-            console.log(password.value);//printing taht input user entered values
-
-            try {
-                const newUser = await authenticationRoom.createUserWithEmailAndPassword(email.value, password.value); //this method required 2 paramaters
-                console.log(newUser);
-                //if the success
-                  btn.innerText ='Create Account';
-                  alert('registered successfully');
-                  window.location.href = './index.html'; //after success we are visting to index.html page to login
-                
-            } catch (error) {
-                //if error
-                console.log(error);
-                btn.innerText ='Create Account'
-                alert('Failed to create the account')
-                
-            }
-            
-        }
-
-    </script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase.js"></script>
+    <script src="./assets/script/firebase.js"></script>
+    <script src="./assets/script/register.js"></script>
     
 </body>
 </html>
