@@ -8,7 +8,6 @@ for(let btn of allbuttons){
         messageInput.value = btn.innerText;
         messageSendhanlder();
     })
-  
 }
 
 
