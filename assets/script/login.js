@@ -13,10 +13,10 @@ async function loginHandler(){
 
     try {
         const userCredentials = await authenticationRoom.signInWithEmailAndPassword(email.value, password.value); //this method required 2 paramaters
-        console.log(userCredentials);
-        console.log(typeof(userCredentials));
-        console.log(userCredentials.email);
-        console.log(userCredentials.uid);
+        // console.log(userCredentials);
+        // console.log(typeof(userCredentials));
+        // console.log(userCredentials.email);
+        // console.log(userCredentials.uid);
 
         btn.innerText ='Sign in'
         alert('login is success')
